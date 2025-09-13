@@ -27,7 +27,7 @@ jobs:
         run: npm run build -- --prod || echo "Build completado con advertencias"
  
       - name: Build Docker image #construir la imagen de Docker
-        run: docker build -t aplicacion_prueba .
+        run: docker build --build-arg NODE_VERSION=22 -t aplicacion_prueba .
       
       - name: Login to DockerHub #iniciar sesión en DockerHub
         uses: docker/login-action@v2
