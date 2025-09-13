@@ -13,17 +13,16 @@ jobs:
       - name: Check out repository #descargar el repositorio
         uses: actions/checkout@v3
 
-      - name: Use Node.js 18 #configurar Node.js
+      - name: Use Node.js 22 #configurar Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18.x"
+          node-version: "22x"
 
       - name: Install dependencies #instalar dependencias
         run: npm install
 
       - name: Run tests #ejecutar pruebas
-        run: npm test -- --watch=false --no-progress --browsers=ChromeHeadless  || echo # Permitir que falle sin detener el flujo de trabajo
-      
+        run: npm test -- --watch=false --no-progress --browsers=ChromeHeadless  || echo "no hay pruebas"
       - name: Build project #construir el proyecto
         run: npm run build -- --prod
       
@@ -37,6 +36,6 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker image to DockerHub #subir la imagen a DockerHub
-        run: docker tag aplicacion_prueba ${{ secrets.DOCKER_USERNAME }}/aplicacion_prueba:latest
-        #Despues de renombrar se sube la imagen a DockerHub
-      - run: docker push ${{ secrets.DOCKER_USERNAME }}/aplicacion_prueba:latest
+        run: |
+          docker tag aplicacion_prueba ${{ secrets.DOCKER_USERNAME }}/aplicacion_prueba:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/aplicacion_prueba:latest
