@@ -6,8 +6,6 @@ RUN npm install
 COPY . .
 RUN npm run build --prod
 
-#Servir
-
 FROM nginx:alpine
 COPY --from=builder /app/dist/aplicacion_prueba /usr/share/nginx/html
 EXPOSE 80
